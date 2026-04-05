@@ -1,4 +1,4 @@
-# UOX3 DFN Editor
+# UOX3 DFN Studio
 
 A modern, cross-platform editor for UOX3 DFN files with structured editing, validation, and visual tooling.
 
@@ -144,4 +144,4 @@ When contributing:
 
 ## About
 
-UOX3 DFN Editor is built for developers and shard owners who want a better way to work with UOX3 data files without fighting raw text.
+UOX3 DFN Studio is built for developers and shard owners who want a better way to work with UOX3 data files without fighting raw text.
