@@ -1,0 +1,377 @@
+<Window xmlns="https://github.com/avaloniaui"
+		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		xmlns:local="using:UOX3DfnStudio"
+		x:Class="UOX3DfnStudio.MainWindow"
+		Title="UOX3 DFN Studio"
+		Width="1200"
+		Height="900"
+		MinWidth="1000"
+		MinHeight="700">
+	<Window.Styles>
+		<Style Selector="Button.toolbar-button">
+			<Setter Property="ToolTip.ShowDelay" Value="250" />
+			<Setter Property="ToolTip.BetweenShowDelay" Value="100" />
+		</Style>
+	</Window.Styles>
+
+	<Grid ColumnDefinitions="220,220,*" RowDefinitions="Auto,*">
+
+		<StackPanel Grid.ColumnSpan="3"
+					Orientation="Horizontal"
+					Margin="10">
+			<Button Classes="toolbar-button"
+					Content="Open DFN Folder"
+					Click="OnOpenFolder">
+				<ToolTip.Tip>
+					<StackPanel Spacing="4" MaxWidth="260">
+						<TextBlock Text="Open DFN Folder" FontWeight="Bold" />
+						<TextBlock Text="Load a DFN folder into the editor." TextWrapping="Wrap" />
+					</StackPanel>
+				</ToolTip.Tip>
+			</Button>
+
+			<Button Classes="toolbar-button"
+					Content="New DFN File"
+					Click="OnNewDfnFile">
+				<ToolTip.Tip>
+					<StackPanel Spacing="4" MaxWidth="260">
+						<TextBlock Text="New DFN File" FontWeight="Bold" />
+						<TextBlock Text="Create a new DFN file in the selected folder." TextWrapping="Wrap" />
+					</StackPanel>
+				</ToolTip.Tip>
+			</Button>
+
+			<Button Classes="toolbar-button"
+					Content="Save Section"
+					Click="OnSaveSection">
+				<ToolTip.Tip>
+					<StackPanel Spacing="4" MaxWidth="260">
+						<TextBlock Text="Save Section" FontWeight="Bold" />
+						<TextBlock Text="Save changes to the currently selected section." TextWrapping="Wrap" />
+					</StackPanel>
+				</ToolTip.Tip>
+			</Button>
+
+			<Button Classes="toolbar-button"
+					Content="New Section"
+					Click="OnNewSection">
+				<ToolTip.Tip>
+					<StackPanel Spacing="4" MaxWidth="260">
+						<TextBlock Text="New Section" FontWeight="Bold" />
+						<TextBlock Text="Create a new section in the current DFN file." TextWrapping="Wrap" />
+					</StackPanel>
+				</ToolTip.Tip>
+			</Button>
+
+			<Button Classes="toolbar-button"
+					Content="Delete Section"
+					Click="OnDeleteSection">
+				<ToolTip.Tip>
+					<StackPanel Spacing="4" MaxWidth="260">
+						<TextBlock Text="Delete Section" FontWeight="Bold" />
+						<TextBlock Text="Delete the selected section from the current DFN file." TextWrapping="Wrap" />
+					</StackPanel>
+				</ToolTip.Tip>
+			</Button>
+
+			<Button Classes="toolbar-button"
+					Content="Undo"
+					Click="OnUndo">
+				<ToolTip.Tip>
+					<StackPanel Spacing="4" MaxWidth="260">
+						<TextBlock Text="Undo" FontWeight="Bold" />
+						<TextBlock Text="Undo the last editor or file change." TextWrapping="Wrap" />
+					</StackPanel>
+				</ToolTip.Tip>
+			</Button>
+
+			<Button Classes="toolbar-button"
+					Content="Redo"
+					Click="OnRedo">
+				<ToolTip.Tip>
+					<StackPanel Spacing="4" MaxWidth="260">
+						<TextBlock Text="Redo" FontWeight="Bold" />
+						<TextBlock Text="Redo the last undone editor or file change." TextWrapping="Wrap" />
+					</StackPanel>
+				</ToolTip.Tip>
+			</Button>
+
+			<Button Classes="toolbar-button"
+					Content="Duplicate Section"
+					Click="OnDuplicateSection">
+				<ToolTip.Tip>
+					<StackPanel Spacing="4" MaxWidth="260">
+						<TextBlock Text="Duplicate Section" FontWeight="Bold" />
+						<TextBlock Text="Copy the selected section into a DFN file and give it a new header." TextWrapping="Wrap" />
+					</StackPanel>
+				</ToolTip.Tip>
+			</Button>
+
+			<Button Classes="toolbar-button"
+					Content="Generate Weapon"
+					Click="OnGenerateWeaponClicked">
+				<ToolTip.Tip>
+					<StackPanel Spacing="4" MaxWidth="260">
+						<TextBlock Text="Generate Weapon" FontWeight="Bold" />
+						<TextBlock Text="Create a weapon section using a base weapon preset." TextWrapping="Wrap" />
+					</StackPanel>
+				</ToolTip.Tip>
+			</Button>
+		</StackPanel>
+
+		<StackPanel Grid.Row="1"
+					Grid.Column="0"
+					Margin="10">
+			<TextBlock Text="Folders"
+					   FontWeight="Bold" />
+			<ListBox x:Name="FolderList"
+					 Height="780" />
+		</StackPanel>
+
+		<StackPanel Grid.Row="1"
+					Grid.Column="1"
+					Margin="10">
+			<TextBlock Text="Files"
+					   FontWeight="Bold" />
+
+			<ListBox x:Name="FileList"
+					 Height="780">
+				<ListBox.ContextMenu>
+					<ContextMenu>
+						<MenuItem Header="New DFN File" Click="OnNewDfnFile" />
+						<MenuItem Header="Rename DFN File" Click="OnRenameDfnFile" />
+						<MenuItem Header="Delete DFN File" Click="OnDeleteDfnFile" />
+					</ContextMenu>
+				</ListBox.ContextMenu>
+			</ListBox>
+		</StackPanel>
+
+		<Grid Grid.Row="1"
+			  Grid.Column="2"
+			  Margin="10"
+			  ColumnDefinitions="3*,2*">
+
+			<Grid Grid.Column="0"
+				  RowDefinitions="Auto,220,*,220"
+				  Margin="0,0,8,0">
+
+				<StackPanel Grid.Row="0"
+							Margin="0,0,0,8">
+					<TextBlock Text="Sections"
+							   FontWeight="Bold" />
+					<TextBox x:Name="SectionSearchBox"
+							 Watermark="Search sections..." />
+				</StackPanel>
+
+				<ListBox Grid.Row="1"
+						 x:Name="SectionList" />
+
+				<Grid Grid.Row="2"
+					  RowDefinitions="Auto,*"
+					  Margin="0,8,0,0">
+					<TextBlock Grid.Row="0"
+							   Text="Section Editor"
+							   FontWeight="Bold"
+							   Margin="0,0,0,4" />
+
+					<TextBox Grid.Row="1"
+							 x:Name="EditorBox"
+							 AcceptsReturn="True"
+							 TextWrapping="NoWrap"
+							 VerticalContentAlignment="Top"
+							 FontFamily="Consolas" />
+				</Grid>
+
+				<Grid Grid.Row="3"
+					  RowDefinitions="Auto,*"
+					  Margin="0,8,0,0">
+					<TextBlock Grid.Row="0"
+							   Text="Line Change Preview"
+							   FontWeight="Bold"
+							   Margin="0,0,0,4" />
+
+					<Border Grid.Row="1"
+							Background="#111111"
+							BorderBrush="#666666"
+							BorderThickness="1"
+							Padding="6">
+						<ScrollViewer VerticalScrollBarVisibility="Auto"
+									  HorizontalScrollBarVisibility="Auto">
+							<ItemsControl x:Name="PreviewLineList">
+								<ItemsControl.ItemTemplate>
+									<DataTemplate x:DataType="local:PreviewLineEntry">
+										<TextBlock Text="{Binding LineText}"
+												   Foreground="{Binding LineBrush}"
+												   FontFamily="Consolas"
+												   Margin="0"
+												   Padding="0" />
+									</DataTemplate>
+								</ItemsControl.ItemTemplate>
+							</ItemsControl>
+						</ScrollViewer>
+					</Border>
+				</Grid>
+			</Grid>
+
+			<Border Grid.Column="1"
+					Background="#111111"
+					BorderBrush="#666666"
+					BorderThickness="1"
+					Padding="8"
+					Margin="8,0,0,0">
+				<Grid RowDefinitions="Auto,Auto,Auto,*">
+					<Grid Grid.Row="0"
+						  ColumnDefinitions="*,Auto"
+						  Margin="0,0,0,6">
+						<TextBlock Grid.Column="0"
+								   Text="Section Tags"
+								   FontWeight="Bold"
+								   VerticalAlignment="Center" />
+
+						<Button Grid.Column="1"
+								Content="Add Tag"
+								Click="OnAddTagClicked"
+								Padding="10,4"
+								Margin="8,0,0,0" />
+					</Grid>
+
+					<TextBlock Grid.Row="1"
+							   x:Name="StructuredHeaderText"
+							   Foreground="LightBlue"
+							   FontFamily="Consolas"
+							   TextWrapping="Wrap"
+							   Margin="0,0,0,8" />
+
+					<Border Grid.Row="2"
+							x:Name="SelectedIdPreviewBorder"
+							Background="#1A1A1A"
+							BorderBrush="#555555"
+							BorderThickness="1"
+							CornerRadius="4"
+							Padding="8"
+							Margin="0,0,0,8"
+							IsVisible="False">
+						<Grid ColumnDefinitions="72,*"
+							  RowDefinitions="Auto,Auto,Auto">
+							<Border Grid.RowSpan="3"
+									Grid.Column="0"
+									Width="64"
+									Height="64"
+									Background="#0F0F0F"
+									BorderBrush="#666666"
+									BorderThickness="1"
+									Padding="4"
+									Margin="0,0,8,0">
+								<Image x:Name="SelectedIdPreviewImage"
+									   Width="56"
+									   Height="56"
+									   Stretch="Uniform"
+									   HorizontalAlignment="Center"
+									   VerticalAlignment="Center" />
+							</Border>
+
+							<TextBlock Grid.Row="0"
+									   Grid.Column="1"
+									   x:Name="SelectedIdPreviewTitle"
+									   Text="Item ID Preview"
+									   FontWeight="Bold"
+									   Foreground="White"
+									   Margin="0,0,0,4" />
+
+							<TextBlock Grid.Row="1"
+									   Grid.Column="1"
+									   x:Name="SelectedIdPreviewDetails"
+									   TextWrapping="Wrap"
+									   Foreground="LightGray"
+									   FontFamily="Consolas"
+									   Margin="0,0,0,4" />
+
+							<TextBlock Grid.Row="2"
+									   Grid.Column="1"
+									   x:Name="SelectedIdPreviewHint"
+									   Text="Double-click ID row to change item art."
+									   TextWrapping="Wrap"
+									   Foreground="#AAAAAA"
+									   FontSize="11" />
+						</Grid>
+					</Border>
+
+					<ListBox Grid.Row="3"
+							 x:Name="StructuredTagList"
+							 MinHeight="0"
+							 HorizontalAlignment="Stretch"
+							 VerticalAlignment="Stretch">
+						<ListBox.ItemTemplate>
+							<DataTemplate x:DataType="local:StructuredTagEntry">
+								<Border Padding="5,4">
+									<ToolTip.Tip>
+										<StackPanel MaxWidth="300"
+													Spacing="2">
+											<TextBlock Text="{Binding TagName}"
+													   FontWeight="Bold" />
+											<TextBlock Text="{Binding Description}"
+													   TextWrapping="Wrap"
+													   Margin="0,3,0,0" />
+											<TextBlock Text="{Binding ValidationMessage}"
+													   Foreground="{Binding ValidationBrush}"
+													   TextWrapping="Wrap"
+													   Margin="0,4,0,0" />
+											<TextBlock Text="{Binding HuePreviewTooltip}"
+													   TextWrapping="Wrap"
+													   Margin="0,4,0,0"
+													   IsVisible="{Binding HasHuePreview}" />
+										</StackPanel>
+									</ToolTip.Tip>
+
+									<Grid ColumnDefinitions="Auto,*,Auto"
+										  Margin="0,1,0,1">
+
+										<Border Grid.Column="0"
+												Width="14"
+												Height="14"
+												Margin="0,0,6,0"
+												Background="{Binding HuePreviewBrush}"
+												BorderBrush="Black"
+												BorderThickness="1"
+												IsVisible="{Binding HasHuePreview}"
+												VerticalAlignment="Center">
+											<ToolTip.Tip>
+												<StackPanel Spacing="6"
+															Margin="4">
+													<Border Width="56"
+															Height="56"
+															Background="{Binding HuePreviewBrush}"
+															BorderBrush="Black"
+															BorderThickness="1" />
+
+													<TextBlock Text="{Binding HuePreviewTooltip}"
+															   TextWrapping="Wrap" />
+												</StackPanel>
+											</ToolTip.Tip>
+										</Border>
+
+										<TextBlock Grid.Column="1"
+												   Text="{Binding DisplayText}"
+												   FontFamily="Consolas"
+												   Foreground="{Binding TagBrush}"
+												   VerticalAlignment="Center" />
+
+										<TextBlock Grid.Column="2"
+												   Margin="16,0,0,0"
+												   Text="{Binding ValidationMessage}"
+												   FontSize="11"
+												   Foreground="{Binding ValidationBrush}"
+												   VerticalAlignment="Center"
+												   TextAlignment="Right" />
+									</Grid>
+								</Border>
+							</DataTemplate>
+						</ListBox.ItemTemplate>
+					</ListBox>
+				</Grid>
+			</Border>
+
+		</Grid>
+
+	</Grid>
+</Window>
